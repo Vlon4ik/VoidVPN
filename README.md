@@ -25,7 +25,6 @@
 15. [Сборка и деплой](#15-сборка-и-деплой)
 16. [Манифест и привилегии](#16-манифест-и-привилегии)
 17. [Персистентность данных](#17-персистентность-данных)
-18. [Критические миграции sing-box 1.12 → 1.13](#18-критические-миграции-sing-box-112--113)
 
 ---
 
@@ -1191,46 +1190,3 @@ static bool IsAdmin()
 | `cache.db` | sing-box DNS/route кэш | SQLite (управляется sing-box) |
 
 ---
-
-## 18. Критические миграции sing-box 1.12 → 1.13
-
-VoidVPN явно написан под sing-box **1.13.4** и учитывает три критических изменения API:
-
-### Удалён outbound типа `"dns"` (1.13)
-
-```json
-// НЕПРАВИЛЬНО (sing-box < 1.13):
-{ "type": "dns", "tag": "dns-out" }
-
-// ПРАВИЛЬНО (sing-box 1.13+) — в outbounds только proxy + direct + block.
-// В route.rules добавляем:
-{ "protocol": ["dns"], "action": "hijack-dns" }
-```
-
-### Удалены поля `sniff`, `gso`, `domain_strategy` из inbound (1.13)
-
-```json
-// НЕПРАВИЛЬНО:
-{ "type": "tun", "sniff": true, "gso": true, "domain_strategy": "prefer_ipv4" }
-
-// ПРАВИЛЬНО — поля убраны из inbound:
-{ "type": "tun" }
-// Sniff теперь через route rule:
-{ "action": "sniff" }
-```
-
-### Deprecated DNS rule `"outbound: any"` → fatal в 1.14 (мигрировано в 1.12)
-
-```json
-// НЕПРАВИЛЬНО (deprecated с 1.12, fatal с 1.14):
-{ "dns": { "rules": [{ "outbound": "any", "server": "local-dns" }] } }
-
-// ПРАВИЛЬНО (sing-box 1.12+):
-{ "route": { "default_domain_resolver": "local-dns" } }
-```
-
-Все три изменения явно задокументированы в комментариях `SingBoxConfig.cs` и `ConfigGeneratorService.cs`.
-
----
-
-*Документация соответствует исходному коду, sing-box 1.13.4, .NET 8.0.*
