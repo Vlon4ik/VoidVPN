@@ -1,5 +1,5 @@
 # VoidVPN — Техническая документация
-https://ru.pinterest.com/pin/704531935494964163/
+
 > WPF-клиент для Windows на базе **sing-box 1.13.4**.  
 > Протоколы VLESS/Reality и Shadowsocks, TUN-режим, постоянный kill switch, AES-256-GCM шифрование логов.
 
