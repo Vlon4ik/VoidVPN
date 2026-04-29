@@ -98,7 +98,7 @@ VoidVPN/
 | System.Text.Json | 8.0.5 | Сериализация профилей и конфига |
 | System.Security.Cryptography.ProtectedData | 8.0.0 | Windows DPAPI |
 | sing-box | 1.13.4 | Прокси-ядро (дочерний процесс) |
-| Wintun | — | TUN-драйвер для Windows |
+| Wintun | 0.14.1 | TUN-драйвер для Windows |
 
 **Сборка:** `win-x64`, `SelfContained=true`, `PublishSingleFile=true` с компрессией. sing-box.exe и wintun.dll вшиты как `EmbeddedResource`.
 
